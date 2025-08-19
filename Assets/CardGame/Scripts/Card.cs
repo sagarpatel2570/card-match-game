@@ -1,24 +1,85 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace CardGame
 {
-    public class Card : MonoBehaviour
+    public class Card : MonoBehaviour,IPointerClickHandler
     {
+        public enum CardState
+        {
+            Hidden,
+            Shown,
+            Matched,
+        }
+        
+        public CardState State { get; private set; }
+        public bool IsAnimating { get; private set; }
+        public event Action<Card,CardState> OnCardStateChangeEvent;
+
+        public CardInfo CardInfo => info;
         private CardInfo info;
-        public GameObject hiddenGo;
-        public GameObject visibleGo;
-        public Image image;
+        private ICardVisual cardVisual;
 
         public void Init(CardInfo info)
         {
             this.info = info;
             gameObject.SetActive(true);
-            image.sprite = info.visual;
-            visibleGo.SetActive(true);
+
+            if (cardVisual == null)
+            {
+                cardVisual = GetComponent<ICardVisual>();
+            }
+            cardVisual.Init(this.info);
+        }
+
+        public void ChangeState(CardState state)
+        {
+            State = state;
+            switch (state)
+            {
+                case CardState.Hidden:
+                    IsAnimating = true;
+                    cardVisual.HideCard(() =>
+                    {
+                        IsAnimating = false;
+                    });
+                    break;
+                case CardState.Shown:
+                    IsAnimating = true;
+                    cardVisual.ShowCard(() =>
+                    {
+                        IsAnimating = false;
+                    });
+                    break;
+                case CardState.Matched:
+                    IsAnimating = true;
+                    cardVisual.MatchCard(() =>
+                    {
+                        IsAnimating = false;
+                    });
+                    break;
+            }
+            
+            OnCardStateChangeEvent?.Invoke(this,State);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (IsAnimating)
+            {
+                return;
+            }
+
+            if (State == CardState.Matched)
+            {
+                return;
+            }
+
+            if (State == CardState.Hidden)
+            {
+                ChangeState(CardState.Shown);
+            }
         }
     }
 

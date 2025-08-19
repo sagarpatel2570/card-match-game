@@ -19,15 +19,16 @@ namespace CardGame
         public CardData cardData;
         public Card cardPrefab;
 
-        private List<Card> items = new List<Card>();
+        public List<Card> CardList => cards;
+        private List<Card> cards = new List<Card>();
         private Vector2 cardSize;
 
         private void Awake()
         {
-            GenerateBoard();
+            // GenerateBoard();
         }
 
-        private void GenerateBoard()
+        public void GenerateBoard()
         {
             int size = Mathf.Max(sizeX, sizeY);
             cardSize = (bg.sizeDelta - (grid.spacing * 2) - (grid.spacing * (size - 1))) / size;
@@ -53,14 +54,18 @@ namespace CardGame
             {
                 for (int j = 0; j < sizeX; j++)
                 {
-                    var item = Instantiate(cardPrefab, grid.transform);
-                    item.name = $"card_{cardNo + 1}";
+                    var card = Instantiate(cardPrefab, grid.transform);
+                    card.name = $"card_{cardNo + 1}";
                     var info = cardId[cardNo];
                     cardNo++;
-                    item.Init(info);
-                    items.Add(item);
+                    card.Init(info);
+                    card.ChangeState(Card.CardState.Shown);
+                    cards.Add(card);
                 }
             }
+
         }
+        
+        
     }
 }
