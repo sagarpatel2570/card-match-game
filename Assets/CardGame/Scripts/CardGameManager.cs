@@ -16,7 +16,8 @@ namespace CardGame
     public class CardGameManager : GameManager<GameState>
     {
         public List<GameObject> gameStates;
-
+        public GameState defaultGameState = GameState.MainMenu;
+        
         private void Start()
         {
             Initialize();
@@ -26,6 +27,10 @@ namespace CardGame
         {
             foreach (var obj in gameStates)
             {
+                if (obj.activeSelf)
+                {
+                    obj.gameObject.SetActive(false);
+                }
                 var gameState = obj.GetComponent<IGameState<GameState>>();
                 if (gameState != null)
                 {
@@ -33,7 +38,7 @@ namespace CardGame
                     RegisterState(gameState.Type,gameState);
                 }
             }
-            ChangeState(GameState.MainMenu);
+            ChangeState(defaultGameState);
         }
 
         private void OnDestroy()

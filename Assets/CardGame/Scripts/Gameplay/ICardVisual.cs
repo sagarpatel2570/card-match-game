@@ -5,8 +5,8 @@ namespace CardGame
     public interface ICardVisual
     {
         public void Init(CardInfo info);
-        public void ShowCard(Action onComplete);
-        public void MatchCard(Action onComplete);
-        public void HideCard(Action onComplete);
+        public void ShowCard(bool animate = true, Action onComplete = null);
+        public void MatchCard(bool animate = true, Action onComplete = null);
+        public void HideCard(bool animate = true, Action onComplete = null);
     }
 }

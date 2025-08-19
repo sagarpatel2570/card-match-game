@@ -66,7 +66,7 @@ namespace CardGame
                     var info = cardId[cardNo];
                     cardNo++;
                     card.Init(info);
-                    card.ChangeState(Card.CardState.Shown);
+                    card.ChangeState(Card.CardState.Hidden,false);
                     cards.Add(card);
                 }
             }

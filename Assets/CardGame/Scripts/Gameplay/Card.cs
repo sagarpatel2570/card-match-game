@@ -33,28 +33,28 @@ namespace CardGame
             cardVisual.Init(this.info);
         }
 
-        public void ChangeState(CardState state)
+        public void ChangeState(CardState state,bool animate = true)
         {
             State = state;
             switch (state)
             {
                 case CardState.Hidden:
                     IsAnimating = true;
-                    cardVisual.HideCard(() =>
+                    cardVisual.HideCard(animate,() =>
                     {
                         IsAnimating = false;
                     });
                     break;
                 case CardState.Shown:
                     IsAnimating = true;
-                    cardVisual.ShowCard(() =>
+                    cardVisual.ShowCard(animate,() =>
                     {
                         IsAnimating = false;
                     });
                     break;
                 case CardState.Matched:
                     IsAnimating = true;
-                    cardVisual.MatchCard(() =>
+                    cardVisual.MatchCard(animate,() =>
                     {
                         IsAnimating = false;
                     });

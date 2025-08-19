@@ -16,5 +16,13 @@ namespace CardGame
     public class GameFinishEvent
     {
     }
+
+    public class WrongPairEvent
+    {
+    }
+
+    public class RightPairEvent
+    {
+    }
 }
 

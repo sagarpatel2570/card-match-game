@@ -10,6 +10,8 @@ namespace CardGame
     {
         public Board board;
         public LevelData CurrLevelData;
+        public CardGameplayUI gameplayUI;
+        public float showTime = 3;
 
         private Card previousCardSelected;
         private int pairsNeeded;
@@ -20,6 +22,8 @@ namespace CardGame
         public void Init(IGameManager<GameState> gameManager)
         {
             this.gameManager = gameManager;
+            gameplayUI.Init(gameManager);
+            
             GlobalEvents.Register<LevelSelectionEvent>(OnLevelSelected);
         }
 
@@ -52,10 +56,20 @@ namespace CardGame
         private IEnumerator StartGameCoroutine()
         {
             SetUpGame();
-            yield return new WaitForSeconds(5);
+            foreach (var card in board.CardList)
+            {
+                card.ChangeState(Card.CardState.Shown,false);
+            }
+            
+            yield return new WaitForSeconds(showTime);
             foreach (var card in board.CardList)
             {
                 card.ChangeState(Card.CardState.Hidden);
+            }
+            
+            foreach (var card in board.CardList)
+            {
+                card.OnCardStateChangeEvent += OnCardStateChange;
             }
         }
 
@@ -68,10 +82,6 @@ namespace CardGame
         {
             Reset();
             board.GenerateBoard(CurrLevelData.levelInfo);
-            foreach (var card in board.CardList)
-            {
-                card.OnCardStateChangeEvent += OnCardStateChange;
-            }
             pairsNeeded = board.CardList.Count / 2;
         }
 
@@ -95,13 +105,13 @@ namespace CardGame
                             {
                                 StartCoroutine(FinishGameCoroutine(card, previousCardSelected));
                             }
-                            StartCoroutine(WaitAndChangeStateCoroutine(card, previousCardSelected, Card.CardState.Matched));
+                            StartCoroutine(WaitAndChangeStateCoroutine(card, previousCardSelected, Card.CardState.Matched,false));
                             
                             // trigger global card match event
                         }
                         else
                         {
-                            StartCoroutine(WaitAndChangeStateCoroutine(card, previousCardSelected, Card.CardState.Hidden));
+                            StartCoroutine(WaitAndChangeStateCoroutine(card, previousCardSelected, Card.CardState.Hidden,true));
                         }
                         previousCardSelected = null;
                     }
@@ -111,17 +121,24 @@ namespace CardGame
             }
         }
         
-        private IEnumerator WaitAndChangeStateCoroutine(Card card1, Card card2, Card.CardState state)
+        private IEnumerator WaitAndChangeStateCoroutine(Card card1, Card card2, Card.CardState state,bool wrongPair)
         {
             yield return new WaitWhile(() => card1.IsAnimating == true);
             yield return new WaitWhile(() => card2.IsAnimating == true);
 
             yield return new WaitForSeconds(0.5f);
-            
+
+            if (wrongPair)
+            {
+                GlobalEvents.Trigger(new WrongPairEvent());
+            }
+            else
+            {
+                GlobalEvents.Trigger(new RightPairEvent());
+            }
+
             card1.ChangeState(state);
             card2.ChangeState(state);
-
-            
         }
 
         private IEnumerator FinishGameCoroutine(Card card1, Card card2)
