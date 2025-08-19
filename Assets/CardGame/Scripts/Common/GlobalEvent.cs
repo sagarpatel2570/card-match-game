@@ -1,0 +1,50 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Common
+{
+    public static class GlobalEvents
+    {
+        private static readonly Dictionary<Type, Delegate> EventTable = new Dictionary<Type, Delegate>();
+
+        public static void Register<T>(Action<T> listener)
+        {
+            var type = typeof(T);
+            if (EventTable.TryGetValue(type, out var existing))
+            {
+                EventTable[type] = Delegate.Combine(existing, listener);
+            }
+            else
+            {
+                EventTable[type] = listener;
+            }
+        }
+
+        public static void UnRegister<T>(Action<T> listener)
+        {
+            var type = typeof(T);
+            if (EventTable.TryGetValue(type, out var existing))
+            {
+                var newDelegate = Delegate.Remove(existing, listener);
+                if (newDelegate == null)
+                    EventTable.Remove(type);
+                else
+                    EventTable[type] = newDelegate;
+            }
+        }
+
+        public static void Trigger<T>(T eventData)
+        {
+            var type = typeof(T);
+            if (EventTable.TryGetValue(type, out var del))
+            {
+                if (del is Action<T> callback)
+                {
+                    callback.Invoke(eventData);
+                }
+            }
+        }
+    }
+}

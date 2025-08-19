@@ -1,18 +1,55 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common;
 using UnityEngine;
 
 namespace CardGame
 {
-    public class CardGameplayManager : MonoBehaviour
+    public class CardGameplay : MonoBehaviour,IGameState<GameState>
     {
         public Board board;
-        
+        public LevelData CurrLevelData;
+
         private Card previousCardSelected;
         private int pairsNeeded;
+        private IGameManager<GameState> gameManager;
+        
+        public GameState Type => GameState.GamePlay;
+        
+        public void Init(IGameManager<GameState> gameManager)
+        {
+            this.gameManager = gameManager;
+            GlobalEvents.Register<LevelSelectionEvent>(OnLevelSelected);
+        }
 
-        private IEnumerator Start()
+        private void OnDestroy()
+        {
+            GlobalEvents.UnRegister<LevelSelectionEvent>(OnLevelSelected);
+        }
+
+        private void OnLevelSelected(LevelSelectionEvent obj)
+        {
+            CurrLevelData = obj.data;
+        }
+
+        public void Enter()
+        {
+            gameObject.SetActive(true);
+            StartCoroutine(StartGameCoroutine());
+        }
+
+        public void UpdateState()
+        {
+        }
+
+        public void Exit()
+        {
+            Reset();
+            gameObject.SetActive(false);
+        }
+
+        private IEnumerator StartGameCoroutine()
         {
             SetUpGame();
             yield return new WaitForSeconds(5);
@@ -22,9 +59,15 @@ namespace CardGame
             }
         }
 
+        public void Reset()
+        {
+            board.Reset();
+        }
+
         private void SetUpGame()
         {
-            board.GenerateBoard();
+            Reset();
+            board.GenerateBoard(CurrLevelData.levelInfo);
             foreach (var card in board.CardList)
             {
                 card.OnCardStateChangeEvent += OnCardStateChange;
@@ -91,9 +134,20 @@ namespace CardGame
 
             yield return new WaitForSeconds(0.5f);
             
-            // trigger global game finish event
             Debug.Log($"Game Finished");
+            GlobalEvents.Trigger(new GameFinishEvent());
         }
+
+        public void NextLevel()
+        {
+            GlobalEvents.Trigger(new NextLevelEvent());
+        }
+
+        public void MainMenu()
+        {
+            gameManager.ChangeState(GameState.MainMenu);
+        }
+        
     }
 }
 

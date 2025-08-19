@@ -12,8 +12,6 @@ namespace CardGame
 {
     public class Board : MonoBehaviour
     {
-        public int sizeX;
-        public int sizeY;
         public RectTransform bg;
         public GridLayoutGroup grid;
         public CardData cardData;
@@ -28,16 +26,25 @@ namespace CardGame
             // GenerateBoard();
         }
 
-        public void GenerateBoard()
+        public void Reset()
         {
-            int size = Mathf.Max(sizeX, sizeY);
+            foreach (var c in cards)
+            {
+                DestroyImmediate(c.gameObject);
+            }
+            cards.Clear();
+        }
+
+        public void GenerateBoard(LevelInfo levelInfo)
+        {
+            int size = Mathf.Max(levelInfo.sizeX, levelInfo.sizeY);
             cardSize = (bg.sizeDelta - (grid.spacing * 2) - (grid.spacing * (size - 1))) / size;
             grid.cellSize = cardSize;
 
-            grid.constraintCount = sizeY;
+            grid.constraintCount =levelInfo.sizeY;
 
-            int totalPairs = (sizeX * sizeY) / 2;
-            int cardSelectionCount = Random.Range(2, Mathf.Min(totalPairs, cardData.cardInfos.Count));
+            int totalPairs = (levelInfo.sizeX * levelInfo.sizeY) / 2;
+            int cardSelectionCount = Random.Range(levelInfo.noOfCardVariation, Mathf.Min(totalPairs, cardData.cardInfos.Count));
             var cardInfos = cardData.GetRandomCard(cardSelectionCount);
 
             List<CardInfo> cardId = new List<CardInfo>();
@@ -50,9 +57,9 @@ namespace CardGame
             cardId.Shuffle();
 
             int cardNo = 0;
-            for (int i = 0; i < sizeY; i++)
+            for (int i = 0; i < levelInfo.sizeY; i++)
             {
-                for (int j = 0; j < sizeX; j++)
+                for (int j = 0; j < levelInfo.sizeX; j++)
                 {
                     var card = Instantiate(cardPrefab, grid.transform);
                     card.name = $"card_{cardNo + 1}";
