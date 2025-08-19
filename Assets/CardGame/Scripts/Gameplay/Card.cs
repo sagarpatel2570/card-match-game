@@ -20,10 +20,14 @@ namespace CardGame
         public CardInfo CardInfo => info;
         private CardInfo info;
         private ICardVisual cardVisual;
+        public int CardNo => cardNo;
+        private int cardNo;
 
-        public void Init(CardInfo info)
+        public void Init(CardInfo info,int cardNo)
         {
             this.info = info;
+            this.cardNo = cardNo;
+            
             gameObject.SetActive(true);
 
             if (cardVisual == null)

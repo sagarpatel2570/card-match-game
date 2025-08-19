@@ -19,7 +19,10 @@ namespace CardGame
 
         private void OnGameFinish(GameFinishEvent obj)
         {
-            endScreenUI.Show(ProceedToMainMenu,NextLevel);
+            if (obj.isCompleted)
+            {
+                endScreenUI.Show(ProceedToMainMenu, NextLevel);
+            }
         }
 
         private void ProceedToMainMenu()

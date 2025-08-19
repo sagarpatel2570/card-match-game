@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardGame
 {
-    public class LevelSelection : MonoBehaviour,IGameState<GameState>
+    public class LevelSelection : MonoBehaviour,IGameState<GameState>,ISave,ILoad
     {
         public List<LevelData> levelInfoDataList;
         public LevelInfoUI levelInfoUIPrefab;
@@ -71,6 +71,21 @@ namespace CardGame
         public void Exit()
         {
             gameObject.SetActive(false);
+        }
+
+        public void Save(GameInfo gameInfo)
+        {
+            gameInfo.levelId = CurrLevel.name;
+        }
+
+        public void Load(GameInfo gameInfo)
+        {
+            var data = levelInfoDataList.Find(a => a.name == gameInfo.levelId);
+            if (data != null)
+            {
+                CurrLevel = data;
+                GlobalEvents.Trigger(new LevelSelectionEvent() { data = data });
+            }
         }
     }
 }

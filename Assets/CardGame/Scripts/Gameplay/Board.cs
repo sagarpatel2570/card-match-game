@@ -65,12 +65,17 @@ namespace CardGame
                     card.name = $"card_{cardNo + 1}";
                     var info = cardId[cardNo];
                     cardNo++;
-                    card.Init(info);
+                    card.Init(info,cardNo);
                     card.ChangeState(Card.CardState.Hidden,false);
                     cards.Add(card);
                 }
             }
 
+        }
+
+        public CardInfo GetCardInfo(string ID)
+        {
+            return cardData.GetCardInfo(ID);
         }
         
         

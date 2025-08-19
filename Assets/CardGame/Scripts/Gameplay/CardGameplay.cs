@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardGame
 {
-    public class CardGameplay : MonoBehaviour,IGameState<GameState>
+    public class CardGameplay : MonoBehaviour,IGameState<GameState>,ISave,ILoad
     {
         public Board board;
         public LevelData CurrLevelData;
@@ -16,6 +16,7 @@ namespace CardGame
         private Card previousCardSelected;
         private int pairsNeeded;
         private IGameManager<GameState> gameManager;
+        private List<GameInfo.CardInfo> cardInfo = new List<GameInfo.CardInfo>();
         
         public GameState Type => GameState.GamePlay;
         
@@ -23,7 +24,6 @@ namespace CardGame
         {
             this.gameManager = gameManager;
             gameplayUI.Init(gameManager);
-            
             GlobalEvents.Register<LevelSelectionEvent>(OnLevelSelected);
         }
 
@@ -55,16 +55,28 @@ namespace CardGame
 
         private IEnumerator StartGameCoroutine()
         {
+            bool showHiddenCard = cardInfo.Count <= 0;
             SetUpGame();
-            foreach (var card in board.CardList)
+
+            if (showHiddenCard)
             {
-                card.ChangeState(Card.CardState.Shown,false);
+                foreach (var card in board.CardList)
+                {
+                    card.ChangeState(Card.CardState.Shown, false);
+                }
+
+                yield return new WaitForSeconds(showTime);
+                foreach (var card in board.CardList)
+                {
+                    card.ChangeState(Card.CardState.Hidden);
+                }
             }
-            
-            yield return new WaitForSeconds(showTime);
-            foreach (var card in board.CardList)
+            else
             {
-                card.ChangeState(Card.CardState.Hidden);
+                foreach (var card in board.CardList)
+                {
+                    card.ChangeState(Card.CardState.Hidden,false);
+                }
             }
             
             foreach (var card in board.CardList)
@@ -82,7 +94,27 @@ namespace CardGame
         {
             Reset();
             board.GenerateBoard(CurrLevelData.levelInfo);
-            pairsNeeded = board.CardList.Count / 2;
+            
+            if (cardInfo.Count <= 0)
+            {
+                foreach (var card in board.CardList)
+                {
+                    cardInfo.Add(new GameInfo.CardInfo() { ID = card.CardInfo.Id, state = 0 });
+                }
+                pairsNeeded = board.CardList.Count / 2;
+                GlobalEvents.Trigger(new SaveGameInfoEvent());
+            }
+            else
+            {
+                for (var index = 0; index < board.CardList.Count; index++)
+                {
+                    var card = board.CardList[index];
+                    var info = board.GetCardInfo(cardInfo[index].ID);
+                    card.Init(info,index + 1);
+                    card.ChangeState((Card.CardState)cardInfo[index].state,false);
+                }
+            }
+
         }
 
         private void OnCardStateChange(Card card, Card.CardState state)
@@ -107,7 +139,6 @@ namespace CardGame
                             }
                             StartCoroutine(WaitAndChangeStateCoroutine(card, previousCardSelected, Card.CardState.Matched,false));
                             
-                            // trigger global card match event
                         }
                         else
                         {
@@ -134,11 +165,15 @@ namespace CardGame
             }
             else
             {
+                cardInfo[card1.CardNo - 1].state = (int)Card.CardState.Matched;
+                cardInfo[card2.CardNo - 1].state = (int)Card.CardState.Matched;
                 GlobalEvents.Trigger(new RightPairEvent());
             }
 
             card1.ChangeState(state);
             card2.ChangeState(state);
+            
+            GlobalEvents.Trigger(new SaveGameInfoEvent());
         }
 
         private IEnumerator FinishGameCoroutine(Card card1, Card card2)
@@ -151,8 +186,7 @@ namespace CardGame
 
             yield return new WaitForSeconds(0.5f);
             
-            Debug.Log($"Game Finished");
-            GlobalEvents.Trigger(new GameFinishEvent());
+            GlobalEvents.Trigger(new GameFinishEvent(){isCompleted = true});
         }
 
         public void NextLevel()
@@ -164,7 +198,18 @@ namespace CardGame
         {
             gameManager.ChangeState(GameState.MainMenu);
         }
-        
+
+        public void Save(GameInfo gameInfo)
+        {
+            gameInfo.cardInfos = cardInfo;
+            gameInfo.pairsNeeded = pairsNeeded;
+        }
+
+        public void Load(GameInfo gameInfo)
+        {
+            cardInfo = gameInfo.cardInfos;
+            pairsNeeded = gameInfo.pairsNeeded;
+        }
     }
 }
 

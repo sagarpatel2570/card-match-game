@@ -28,6 +28,7 @@ namespace CardGame
         {
             this.gameManager = gameManager;
         }
+        
 
         public void Enter()
         {

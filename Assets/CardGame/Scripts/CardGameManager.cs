@@ -17,13 +17,11 @@ namespace CardGame
     {
         public List<GameObject> gameStates;
         public GameState defaultGameState = GameState.MainMenu;
-        
-        private void Start()
-        {
-            Initialize();
-        }
 
-        private void Initialize()
+        private bool isDataLoaded = false;
+        private bool loadGame = false;
+
+        private void Awake()
         {
             foreach (var obj in gameStates)
             {
@@ -38,7 +36,37 @@ namespace CardGame
                     RegisterState(gameState.Type,gameState);
                 }
             }
-            ChangeState(defaultGameState);
+            GlobalEvents.Register<LoadDataEvent>(OnDataLoaded); 
+        }
+
+        private void OnDisable()
+        {
+            GlobalEvents.UnRegister<LoadDataEvent>(OnDataLoaded); 
+            
+        }
+        
+        private IEnumerator Start()
+        {
+            yield return new WaitWhile(() => isDataLoaded == false);
+            Initialize();
+        }
+        
+        private void OnDataLoaded(LoadDataEvent data)
+        {
+            isDataLoaded = true;
+            loadGame = !string.IsNullOrEmpty(data.gameInfo.levelId);
+        }
+
+        private void Initialize()
+        {
+            if (!loadGame)
+            {
+                ChangeState(defaultGameState);
+            }
+            else
+            {
+                ChangeState(GameState.GamePlay);
+            }
         }
 
         private void OnDestroy()

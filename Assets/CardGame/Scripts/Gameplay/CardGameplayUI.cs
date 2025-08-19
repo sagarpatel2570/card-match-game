@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ namespace CardGame
             homeButton.onClick.RemoveAllListeners();
             homeButton.onClick.AddListener(() =>
             {
+                GlobalEvents.Trigger(new GameFinishEvent(){isCompleted = false});
                 gameManager.ChangeState(GameState.MainMenu);
             });
         }

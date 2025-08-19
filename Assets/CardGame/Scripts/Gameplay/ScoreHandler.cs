@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardGame
 {
-    public class ScoreHandler : MonoBehaviour
+    public class ScoreHandler : MonoBehaviour,ISave,ILoad
     {
         public float comboTime = 3;
         public int wrongPairPoint = -2;
@@ -83,6 +83,17 @@ namespace CardGame
             totalPoint = 0;
             currComboTime = 0;
             comboNum = 0;
+        }
+
+        public void Save(GameInfo gameInfo)
+        {
+            gameInfo.totalPoints = totalPoint;
+        }
+
+        public void Load(GameInfo gameInfo)
+        {
+            totalPoint = gameInfo.totalPoints;
+            OnScoreChangeEvent?.Invoke(totalPoint,0);
         }
     }
 }
