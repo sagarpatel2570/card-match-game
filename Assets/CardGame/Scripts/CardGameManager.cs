@@ -26,12 +26,6 @@ namespace CardGame
             
             GlobalEvents.Register<LoadDataEvent>(OnDataLoaded); 
         }
-
-        private void OnDisable()
-        {
-            GlobalEvents.UnRegister<LoadDataEvent>(OnDataLoaded); 
-            
-        }
         
         private IEnumerator Start()
         {
@@ -74,6 +68,8 @@ namespace CardGame
 
         private void OnDestroy()
         {
+            GlobalEvents.UnRegister<LoadDataEvent>(OnDataLoaded); 
+
             foreach (var obj in gameStates)
             {
                 if (obj != null)
