@@ -62,6 +62,7 @@ namespace CardGame
 
         private IEnumerator StartGameCoroutine()
         {
+            // check if gamedata is there
             bool showHiddenCard = cardInfo.Count <= 0;
             SetUpGame();
 
@@ -121,7 +122,6 @@ namespace CardGame
                     card.ChangeState((Card.CardState)cardInfo[index].state,false);
                 }
             }
-
         }
 
         private void OnCardStateChange(Card card, Card.CardState state)
