@@ -8,25 +8,15 @@ namespace CardGame
     {
         public LevelData data;
     }
-
-    public class NextLevelEvent
-    {
-    }
-    
+    public class NextLevelEvent {}
     public class GameFinishEvent
     {
         public bool isCompleted;
     }
-
-    public class WrongPairEvent
-    {
-    }
-
-    public class RightPairEvent
-    {
-    }
-    
+    public class WrongPairEvent {}
+    public class RightPairEvent {}
     public class SaveGameInfoEvent{}
+    public class LoadGameInfoEvent{}
 
     public class LoadDataEvent
     {

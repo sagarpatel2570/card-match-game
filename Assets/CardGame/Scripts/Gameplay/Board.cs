@@ -20,19 +20,25 @@ namespace CardGame
         public List<Card> CardList => cards;
         private List<Card> cards = new List<Card>();
         private Vector2 cardSize;
+        private Vector2 ogBgSizedelta;
 
         private void Awake()
         {
             // GenerateBoard();
+            ogBgSizedelta = bg.sizeDelta;
         }
 
         public void Reset()
         {
             foreach (var c in cards)
             {
-                DestroyImmediate(c.gameObject);
+                if (c != null)
+                {
+                    DestroyImmediate(c.gameObject);
+                }
             }
             cards.Clear();
+            bg.sizeDelta = ogBgSizedelta;
         }
 
         public void GenerateBoard(LevelInfo levelInfo)
@@ -71,6 +77,24 @@ namespace CardGame
                 }
             }
 
+            StartCoroutine(WaitAndChangeBgSizeCoroutine());
+        }
+
+        private IEnumerator WaitAndChangeBgSizeCoroutine()
+        {
+            yield return null;
+            var sizeFitter = bg.GetComponent<ContentSizeFitter>();
+            if (sizeFitter == null)
+            {
+                sizeFitter = bg.gameObject.AddComponent<ContentSizeFitter>();
+            }
+            sizeFitter.enabled = true;
+
+            sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            yield return null;
+            sizeFitter.enabled = false;
         }
 
         public CardInfo GetCardInfo(string ID)

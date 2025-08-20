@@ -17,6 +17,7 @@ namespace CardGame
         {
             GlobalEvents.Register<GameFinishEvent>(GameFinish);
             GlobalEvents.Register<SaveGameInfoEvent>(SaveGame);
+            GlobalEvents.Register<LoadGameInfoEvent>(LoadGame);
         }
 
         private void Start()
@@ -27,21 +28,11 @@ namespace CardGame
             LoadGameData();
         }
 
-        private void GameFinish(GameFinishEvent obj)
-        {
-            gameInfo = new GameInfo();
-            
-            foreach (var loader in loaderList)
-            {
-                loader.Load(gameInfo);
-            }
-            SaveData(gameInfo);
-        }
-
         private void OnDestroy()
         {
             GlobalEvents.UnRegister<GameFinishEvent>(GameFinish);
             GlobalEvents.UnRegister<SaveGameInfoEvent>(SaveGame);
+            GlobalEvents.UnRegister<LoadGameInfoEvent>(LoadGame);
         }
 
         private void LoadGameData()
@@ -54,11 +45,6 @@ namespace CardGame
             else
             {
                 gameInfo = JsonUtility.FromJson<GameInfo>(data);
-            }
-            
-            foreach (var loader in loaderList)
-            {
-                loader.Load(gameInfo);
             }
             
             GlobalEvents.Trigger(new LoadDataEvent(){gameInfo = gameInfo});
@@ -78,6 +64,25 @@ namespace CardGame
             var data = JsonUtility.ToJson(gameInfo);
             PlayerPrefs.SetString(game_data_id,data);
             PlayerPrefs.Save();
+        }
+        
+        private void LoadGame(LoadGameInfoEvent obj)
+        {
+            foreach (var loader in loaderList)
+            {
+                loader.Load(gameInfo);
+            }
+        }
+        
+        private void GameFinish(GameFinishEvent obj)
+        {
+            gameInfo = new GameInfo();
+            
+            foreach (var loader in loaderList)
+            {
+                loader.Load(gameInfo);
+            }
+            SaveData(gameInfo);
         }
     }
 }

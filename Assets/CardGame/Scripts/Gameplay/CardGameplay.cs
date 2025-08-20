@@ -19,6 +19,7 @@ namespace CardGame
         private Card previousCardSelected;
         private int pairsNeeded;
         private IGameManager<GameState> gameManager;
+        
         private List<GameInfo.CardInfo> cardInfo = new List<GameInfo.CardInfo>();
         
         public GameState Type => GameState.GamePlay;
@@ -160,7 +161,7 @@ namespace CardGame
             yield return new WaitWhile(() => card1.IsAnimating == true);
             yield return new WaitWhile(() => card2.IsAnimating == true);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
 
             if (wrongPair)
             {

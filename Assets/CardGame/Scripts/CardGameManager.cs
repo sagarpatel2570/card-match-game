@@ -23,19 +23,7 @@ namespace CardGame
 
         private void Awake()
         {
-            foreach (var obj in gameStates)
-            {
-                if (obj.activeSelf)
-                {
-                    obj.gameObject.SetActive(false);
-                }
-                var gameState = obj.GetComponent<IGameState<GameState>>();
-                if (gameState != null)
-                {
-                    gameState.Init(this);
-                    RegisterState(gameState.Type,gameState);
-                }
-            }
+            
             GlobalEvents.Register<LoadDataEvent>(OnDataLoaded); 
         }
 
@@ -59,12 +47,27 @@ namespace CardGame
 
         private void Initialize()
         {
+            foreach (var obj in gameStates)
+            {
+                if (obj.activeSelf)
+                {
+                    obj.gameObject.SetActive(false);
+                }
+                var gameState = obj.GetComponent<IGameState<GameState>>();
+                if (gameState != null)
+                {
+                    gameState.Init(this);
+                    RegisterState(gameState.Type,gameState);
+                }
+            }
+            
             if (!loadGame)
             {
                 ChangeState(defaultGameState);
             }
             else
             {
+                GlobalEvents.Trigger(new LoadGameInfoEvent());
                 ChangeState(GameState.GamePlay);
             }
         }

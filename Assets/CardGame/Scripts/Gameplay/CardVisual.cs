@@ -17,6 +17,7 @@ namespace CardGame
         private Tween punchScaleTween;
         private Tween punchRotateTween;
         private bool hideCardWithOutPunch = true;
+        private WaitForSeconds rotationWait = new WaitForSeconds(0.03f);
 
         public void Init(CardInfo info)
         {
@@ -72,6 +73,7 @@ namespace CardGame
             }
             else
             {
+                hideCardWithOutPunch = false;
                 hiddenGo.gameObject.SetActive(true);
                 hiddenGo.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 visibleGo.gameObject.SetActive(false);
@@ -99,7 +101,7 @@ namespace CardGame
             for (float i = 180f; i >= -180; i -= 10f)
             {
                 visibleGo.transform.rotation = Quaternion.Euler(0f, i, 0f);
-                yield return new WaitForSeconds(0.03f);
+                yield return rotationWait;
             }
         }
 
@@ -118,7 +120,7 @@ namespace CardGame
                         visibleGo.transform.rotation = Quaternion.Euler(0f, i, 0f);
                         obj = visibleGo;
                     }
-                    yield return new WaitForSeconds(0.03f);
+                    yield return rotationWait;
                 }
             }
             else
@@ -135,7 +137,7 @@ namespace CardGame
 
                         visibleGo.gameObject.SetActive(false);
                     }
-                    yield return new WaitForSeconds(0.03f);
+                    yield return rotationWait;
                 }
             }
             onComplete?.Invoke();
