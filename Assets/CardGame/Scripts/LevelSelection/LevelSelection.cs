@@ -35,6 +35,8 @@ namespace CardGame
 
             CurrLevel = levelInfoDataList[index];
             GlobalEvents.Trigger(new LevelSelectionEvent() { data = CurrLevel });
+            GlobalEvents.Trigger(new LoadGameInfoEvent());
+
             gameManager.ChangeState(GameState.GamePlay);
         }
 

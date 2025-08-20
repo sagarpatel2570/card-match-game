@@ -19,6 +19,8 @@ namespace CardGame
         private Card previousCardSelected;
         private int pairsNeeded;
         private IGameManager<GameState> gameManager;
+        public ScoreHandler ScoreHandler => scoreHandler;
+        private ScoreHandler scoreHandler;
         
         private List<GameInfo.CardInfo> cardInfo = new List<GameInfo.CardInfo>();
         
@@ -27,6 +29,7 @@ namespace CardGame
         public void Init(IGameManager<GameState> gameManager)
         {
             this.gameManager = gameManager;
+            scoreHandler = GetComponent<ScoreHandler>();
             gameplayUI.Init(gameManager);
             GlobalEvents.Register<LevelSelectionEvent>(OnLevelSelected);
         }

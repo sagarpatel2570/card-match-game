@@ -844,7 +844,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8505166238231220468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,6 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62429d7943e7d45df9b5c13093d1f2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointText: {fileID: 8505166238029387795}
   homeButton: {fileID: 8505166237795191726}
   nextLevelButton: {fileID: 8505166239634030340}
 --- !u!1 &8505166239634030342

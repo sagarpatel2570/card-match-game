@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,7 @@ namespace CardGame
 
         public void Enter()
         {
+            GlobalEvents.Trigger(new LoadGameInfoEvent());
             gameObject.SetActive(true);
         }
 

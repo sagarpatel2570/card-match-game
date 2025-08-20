@@ -21,7 +21,7 @@ namespace CardGame
         {
             if (obj.isCompleted)
             {
-                endScreenUI.Show(ProceedToMainMenu, NextLevel);
+                endScreenUI.Show(  gameplay.ScoreHandler.TotalPoint, ProceedToMainMenu, NextLevel);
             }
         }
 

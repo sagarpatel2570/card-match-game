@@ -55,13 +55,13 @@ namespace CardGame
                 }
             }
             
+            GlobalEvents.Trigger(new LoadGameInfoEvent());
             if (!loadGame)
             {
                 ChangeState(defaultGameState);
             }
             else
             {
-                GlobalEvents.Trigger(new LoadGameInfoEvent());
                 ChangeState(GameState.GamePlay);
             }
         }

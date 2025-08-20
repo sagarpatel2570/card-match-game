@@ -78,10 +78,10 @@ namespace CardGame
         {
             gameInfo = new GameInfo();
             
-            foreach (var loader in loaderList)
-            {
-                loader.Load(gameInfo);
-            }
+            // foreach (var loader in loaderList)
+            // {
+            //     loader.Load(gameInfo);
+            // }
             SaveData(gameInfo);
         }
     }
