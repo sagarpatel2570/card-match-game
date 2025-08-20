@@ -95,11 +95,11 @@ namespace CardGame
         public void Reset()
         {
             board.Reset();
+            cardInfo.Clear();
         }
 
         private void SetUpGame()
         {
-            Reset();
             board.GenerateBoard(CurrLevelData.levelInfo);
             
             if (cardInfo.Count <= 0)

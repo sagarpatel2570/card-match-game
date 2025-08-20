@@ -33,7 +33,7 @@ namespace CardGame
 
         public void Enter()
         {
-            GlobalEvents.Trigger(new LoadGameInfoEvent());
+            // GlobalEvents.Trigger(new LoadGameInfoEvent());
             gameObject.SetActive(true);
         }
 

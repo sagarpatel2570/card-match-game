@@ -72,7 +72,7 @@ namespace CardGame
 
         private void GameStateChange(GameStateEvent<GameState> state)
         {
-            if (state.currentState.Type == GameState.GamePlay)
+            if (state.prevState.Type == GameState.GamePlay)
             {
                 Reset();
             }

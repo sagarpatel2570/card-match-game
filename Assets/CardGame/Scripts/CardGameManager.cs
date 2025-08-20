@@ -23,7 +23,6 @@ namespace CardGame
 
         private void Awake()
         {
-            
             GlobalEvents.Register<LoadDataEvent>(OnDataLoaded); 
         }
         
