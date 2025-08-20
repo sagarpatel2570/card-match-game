@@ -1111,6 +1111,9 @@ MonoBehaviour:
   CurrLevelData: {fileID: 11400000, guid: 5d7c5fe601fee4a129e5703306e86456, type: 2}
   gameplayUI: {fileID: 8872962242429992772}
   showTime: 3
+  rightPairSfx: {fileID: 8300000, guid: e55ff15a6d59243efaecd89fdbe0da4c, type: 3}
+  wrongPairSfx: {fileID: 8300000, guid: 5fdb13d3756c84fecac96f5a2d124370, type: 3}
+  gameOverSfx: {fileID: 8300000, guid: 874f923c6562346de85420ec18dd55a0, type: 3}
 --- !u!114 &8872962242429992772
 MonoBehaviour:
   m_ObjectHideFlags: 0

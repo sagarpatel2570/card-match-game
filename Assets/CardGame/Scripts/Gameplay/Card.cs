@@ -1,4 +1,5 @@
 using System;
+using Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,8 @@ namespace CardGame
             Shown,
             Matched,
         }
+
+        public AudioClip cardFlipSfx;
         
         public CardState State { get; private set; }
         public bool IsAnimating { get; private set; }
@@ -82,6 +85,7 @@ namespace CardGame
 
             if (State == CardState.Hidden)
             {
+                SoundManager.Instance.PlaySfx(cardFlipSfx);
                 ChangeState(CardState.Shown);
             }
         }

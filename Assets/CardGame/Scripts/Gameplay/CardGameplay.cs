@@ -12,6 +12,9 @@ namespace CardGame
         public LevelData CurrLevelData;
         public CardGameplayUI gameplayUI;
         public float showTime = 3;
+        public AudioClip rightPairSfx;
+        public AudioClip wrongPairSfx;
+        public AudioClip gameOverSfx;
 
         private Card previousCardSelected;
         private int pairsNeeded;
@@ -161,12 +164,15 @@ namespace CardGame
 
             if (wrongPair)
             {
+                SoundManager.Instance.PlaySfx(wrongPairSfx);
                 GlobalEvents.Trigger(new WrongPairEvent());
             }
             else
             {
                 cardInfo[card1.CardNo - 1].state = (int)Card.CardState.Matched;
                 cardInfo[card2.CardNo - 1].state = (int)Card.CardState.Matched;
+                
+                SoundManager.Instance.PlaySfx(rightPairSfx);
                 GlobalEvents.Trigger(new RightPairEvent());
             }
 
@@ -186,6 +192,7 @@ namespace CardGame
 
             yield return new WaitForSeconds(0.5f);
             
+            SoundManager.Instance.PlaySfx(gameOverSfx);
             GlobalEvents.Trigger(new GameFinishEvent(){isCompleted = true});
         }
 

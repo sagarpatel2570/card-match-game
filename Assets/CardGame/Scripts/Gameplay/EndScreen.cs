@@ -37,7 +37,7 @@ namespace CardGame
             gameplay.NextLevel();
         }
 
-        public void HideEndScreenUI()
+        private void HideEndScreenUI()
         {
             endScreenUI.Hide();
         }
