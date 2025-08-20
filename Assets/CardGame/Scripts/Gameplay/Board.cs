@@ -77,25 +77,25 @@ namespace CardGame
                 }
             }
 
-            StartCoroutine(WaitAndChangeBgSizeCoroutine());
+            // StartCoroutine(WaitAndChangeBgSizeCoroutine());
         }
 
-        private IEnumerator WaitAndChangeBgSizeCoroutine()
-        {
-            yield return null;
-            var sizeFitter = bg.GetComponent<ContentSizeFitter>();
-            if (sizeFitter == null)
-            {
-                sizeFitter = bg.gameObject.AddComponent<ContentSizeFitter>();
-            }
-            sizeFitter.enabled = true;
-
-            sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            yield return null;
-            sizeFitter.enabled = false;
-        }
+        // private IEnumerator WaitAndChangeBgSizeCoroutine()
+        // {
+        //     yield return null;
+        //     var sizeFitter = bg.GetComponent<ContentSizeFitter>();
+        //     if (sizeFitter == null)
+        //     {
+        //         sizeFitter = bg.gameObject.AddComponent<ContentSizeFitter>();
+        //     }
+        //     sizeFitter.enabled = true;
+        //
+        //     sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        //     sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        //
+        //     yield return null;
+        //     sizeFitter.enabled = false;
+        // }
 
         public CardInfo GetCardInfo(string ID)
         {

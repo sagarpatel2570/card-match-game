@@ -743,33 +743,9 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 53517656}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053706401251118956, guid: 727d74619645443999044e907cd3a39a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6053706401606581136, guid: 727d74619645443999044e907cd3a39a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 6053706401606581136, guid: 727d74619645443999044e907cd3a39a, type: 3}
       propertyPath: m_SizeDelta.y

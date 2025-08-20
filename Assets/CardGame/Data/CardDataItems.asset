@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427e3a5e811f54e339dc591d237a3710, type: 3}
+  m_Name: CardDataItems
+  m_EditorClassIdentifier: 
+  cardInfos:
+  - Id: bag
+    visual: {fileID: 21300000, guid: c1e3f83fb7eb942ee8baa3d7c3723eb1, type: 3}
+  - Id: battle
+    visual: {fileID: 21300000, guid: e35fc472b6ada425894eef3b044e099f, type: 3}
+  - Id: bolt
+    visual: {fileID: 21300000, guid: 180dd459b1f2e41e7b1c59cbb67e45bb, type: 3}
+  - Id: bomb
+    visual: {fileID: 21300000, guid: e999f11042cd241a38ff7e27c7803480, type: 3}
+  - Id: book
+    visual: {fileID: 21300000, guid: 949f7004ed54344bebb60dbafccfa660, type: 3}
+  - Id: booster
+    visual: {fileID: 21300000, guid: ccf97ddb50dc9437e9899ba23fab088a, type: 3}
+  - Id: boot
+    visual: {fileID: 21300000, guid: 44f2803dad0404cbeb9ee038d70da104, type: 3}
+  - Id: diamond
+    visual: {fileID: 21300000, guid: 1230a91a23d0849128d2f8c63b5996fe, type: 3}
+  - Id: dynamite
+    visual: {fileID: 21300000, guid: 0a581261c6564475292652140798ad51, type: 3}
+  - Id: energy
+    visual: {fileID: 21300000, guid: b7d7e36f0c41c4316a6ea75d0a9321a6, type: 3}
+  - Id: flipper
+    visual: {fileID: 21300000, guid: cbbde3a9c76824ecebc95880f93013b0, type: 3}
+  - Id: gloves
+    visual: {fileID: 21300000, guid: 7f5077902f34e4dcda6e69df4ced83a7, type: 3}
+  - Id: key
+    visual: {fileID: 21300000, guid: 9f8ec0d58522f429d938ada2e1aa5296, type: 3}
+  - Id: landmine
+    visual: {fileID: 21300000, guid: c94ac9d283c31496a94910ba9ac982ae, type: 3}
+  - Id: lock
+    visual: {fileID: 21300000, guid: 1ed9984ce90a04e40b55e356eec45d5c, type: 3}
+  - Id: magnet
+    visual: {fileID: 21300000, guid: ea73c8c20afcd4bf4b8a82f0bedfe2ff, type: 3}
+  - Id: meat
+    visual: {fileID: 21300000, guid: 98663b0033e5347c1a470a40f89f1f10, type: 3}
